@@ -1,17 +1,41 @@
-var b = null;
 
-function callMe(){
-    b = "a value";
-    return Math.random() < 0.5;
+function MyClass() {
+  console.log("constructing MyClass");
+  this.id = {
+    value: "foo"
+  };
+  
+  this.lastFormData = "failure";
+  
 }
 
-var a = callMe(),
-    a_name = b;
+MyClass.prototype.validate = function() {
+  console.log("validating");
+  this.lastFormData = "awesome";
+  return Math.random() > 0.5;
+}
 
-console.log(a_name);
+MyClass.prototype._setErrors = function(errors) {
+  console.log("setting errors");
+}
 
-if(a) {
-    console.log("hi");
-} 
+MyClass.prototype._updateReport = function(){
+    // button click to update report.
+    var args = {
+        aid: this.id.value
+    };
 
-console.log("bye");
+    var errors = this.validate(), data = this.lastFormData;
+
+    if(this._setErrors(errors)){
+        return;
+    }
+    
+    console.log(data);
+    
+    console.log("done updating");
+};
+
+
+var m = new MyClass();
+m._updateReport();
